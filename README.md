@@ -16,7 +16,7 @@ A finite state machine (FSM) controls vehicle traffic lights, while a pedestrian
   - **LD0** – Green
   - **LD1** – Yellow
   - **LD2** – Red
-  - **LD3 (V19)** – Pedestrian indicator
+  - **LD3** – Pedestrian indicator
 - ✨ Pedestrian LED behavior:
   - Turns ON immediately when requested
   - Blinks during pedestrian crossing
@@ -48,7 +48,7 @@ GREEN (LD0)
 
 
 ### Pedestrian Request Flow
-1. User presses **BTNU**
+1. User presses **BTNU**.
 2. Pedestrian request is latched
 3. System finishes current traffic cycle
 4. At RED:
@@ -72,7 +72,7 @@ GREEN (LD0)
 | LD2 | U19 | Red |
 | LD3 | V19 | Pedestrian LED |
 
-All I/O pins use **LVCMOS33** to avoid bank voltage conflicts.
+All I/O pins use **LVCMOS33** i.e. 3.3V to avoid bank voltage conflicts.
 
 ---
 
@@ -82,8 +82,6 @@ A dedicated VHDL testbench (`top_tb.vhd`) verifies:
 - Pedestrian request handling
 - LED blinking behavior
 - Countdown timing
-
-Simulation performed using **Vivado Simulator**.
 
 ---
 
@@ -98,7 +96,7 @@ Simulation performed using **Vivado Simulator**.
 
 ## 🧠 Skills Demonstrated
 - VHDL (RTL design)
-- Finite State Machines
+- Finite State Machines (FSM)
 - FPGA clocking and timing
 - Button debouncing
 - Hardware constraints (XDC)
@@ -112,4 +110,4 @@ Simulation performed using **Vivado Simulator**.
 - Emergency vehicle override
 - Multi-intersection support
 
----
+Thank you and Have a Good Day :)
