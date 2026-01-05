@@ -1,113 +1,115 @@
+# 🚦 FPGA Traffic Light Controller with Pedestrian Crossing (Basys 3)
 
-# Project Title
+## 📌 Overview
+This project implements a **real-world traffic light controller with pedestrian crossing support** using **VHDL** on the **Basys 3 FPGA (Artix-7)**.
 
-A brief description of what this project does and who it's for
-
-Perfect — a **clean, professional README** will make this project look *serious* on GitHub and LinkedIn.
-Below is a **ready-to-paste README.md** written at a **resume / recruiter / interviewer** level.
-
-You can copy it **as-is** or tweak your name later.
+A finite state machine (FSM) controls vehicle traffic lights, while a pedestrian push button (BTNU) allows safe pedestrian crossing. The design correctly handles real hardware constraints such as button bounce, clock-domain crossing, and FPGA I/O standards.
 
 ---
 
-# 🚦 FPGA-Based Traffic Light Controller with Pedestrian Request
-
-**Target Board:** Digilent Basys 3 (Artix-7)
-**Language:** VHDL
-**Tools:** Vivado (Simulation + Synthesis)
-
----
-
-## 📌 Project Overview
-
-This project implements a **real-world traffic light controller** using a **Finite State Machine (FSM)** on an FPGA.
-The system controls vehicle traffic lights and supports a **pedestrian crossing request** using a debounced push-button input.
-
-The design mimics **real traffic systems** by safely servicing pedestrian requests only after completing the current traffic cycle.
-
----
-
-## 🎯 Key Features
-
-* FSM-based traffic light control (GREEN → YELLOW → RED)
-* Pedestrian request button (BTNU)
-* Hardware button debouncing
-* Pedestrian crossing phase
-* LED-based traffic light indication
-* Seven-segment display countdown timer
-* Fully synthesizable, board-tested design
+## 🎯 Features
+- 🚥 Traffic light FSM: Green → Yellow → Red
+- 🚶 Pedestrian crossing request using BTNU
+- 🔒 Latched pedestrian request (no missed button presses)
+- ⏱️ Accurate timing using a 100 MHz → 1 Hz clock divider
+- 💡 LED indicators:
+  - **LD0** – Green
+  - **LD1** – Yellow
+  - **LD2** – Red
+  - **LD3 (V19)** – Pedestrian indicator
+- ✨ Pedestrian LED behavior:
+  - Turns ON immediately when requested
+  - Blinks during pedestrian crossing
+  - Blinks faster near the end of the crossing
+- 🔢 Countdown timer on the 7-segment display
+- 🧪 Verified using a custom VHDL testbench
 
 ---
 
-## 🧠 System Behavior
+## 🧠 Design Architecture
 
-1. Traffic lights cycle normally.
-2. Pressing the **pedestrian button (BTNU)** registers a request.
-3. The request is **latched** and safely served when traffic reaches RED.
-4. During pedestrian phase:
+### Clock Domains
+| Clock | Purpose |
+|-----|--------|
+| 100 MHz | Button debouncing and request latching |
+| 1 Hz | FSM timing, LED control, pedestrian blinking |
 
-   * Pedestrian LED turns ON
-   * Countdown displayed on 7-segment display
-5. System resumes normal traffic operation.
-
-> ⚠️ Pedestrian requests do **not** interrupt traffic immediately — this ensures safety and deterministic behavior.
+This separation ensures reliable capture of short button presses while maintaining human-readable timing.
 
 ---
 
-## 🔧 Hardware Mapping (Basys 3)
+## 🔄 FSM Behavior
 
-| Component         | Board Resource                          |
-| ----------------- | --------------------------------------- |
-| Clock             | 100 MHz onboard clock                   |
-| Reset             | BTNC                                    |
-| Pedestrian Button | BTNU                                    |
-| Traffic LEDs      | LED0 (Green), LED1 (Yellow), LED2 (Red) |
-| Pedestrian LED    | LED3                                    |
-| Countdown Display | 4-digit Seven Segment                   |
+### Normal Operation
+GREEN (LD0)
+→ YELLOW (LD1)
+→ RED (LD2)
+→ GREEN
 
 
----
-
-## 🧩 Design Architecture
-
-* **FSM Controller**
-  Controls traffic states and pedestrian logic.
-
-* **Debounce Module**
-  Filters mechanical button noise to ensure reliable input.
-
-* **Timer Module**
-  Generates state-based countdown values.
-
-* **Top Module**
-  Integrates all components and maps FPGA I/O.
+### Pedestrian Request Flow
+1. User presses **BTNU**
+2. Pedestrian request is latched
+3. System finishes current traffic cycle
+4. At RED:
+   - Red light remains ON
+   - Pedestrian LED (LD3) blinks
+5. Near timeout:
+   - Pedestrian LED blinks faster
+6. System returns to GREEN
 
 ---
 
-## 🧪 Simulation & Testing
+## 🛠️ Hardware Mapping (Basys 3)
 
-* Functional simulation performed in Vivado
-* Verified FSM transitions and pedestrian request handling
-* Synthesized and tested on **real Basys 3 hardware**
+| Signal | Board Pin | Description |
+|------|----------|-------------|
+| clk100MHz | W5 | 100 MHz system clock |
+| reset | U18 | Reset button |
+| ped_btn | T18 | Pedestrian request (BTNU) |
+| LD0 | U16 | Green |
+| LD1 | E19 | Yellow |
+| LD2 | U19 | Red |
+| LD3 | V19 | Pedestrian LED |
 
----
-
-## 🚀 How to Run
-
-1. Open Vivado
-2. Create a new RTL project
-3. Add all `.vhd` files
-4. Add `basys3.xdc` constraints
-5. Set `top.vhd` as top module
-6. Generate bitstream
-7. Program the Basys 3 board
+All I/O pins use **LVCMOS33** to avoid bank voltage conflicts.
 
 ---
 
-## 📈 Possible Enhancements
+## 🧪 Simulation
+A dedicated VHDL testbench (`top_tb.vhd`) verifies:
+- FSM transitions
+- Pedestrian request handling
+- LED blinking behavior
+- Countdown timing
 
-* Walk / Don’t Walk indicators
-* Audible pedestrian signal
-* Adaptive traffic timing
-* Vehicle sensors
-* UART-based traffic monitoring
+Simulation performed using **Vivado Simulator**.
+
+---
+
+## 🧩 Engineering Challenges Solved
+- Reliable handling of momentary push-button inputs
+- Clock-domain crossing between fast and slow logic
+- Event latching to prevent missed requests
+- Safe FPGA I/O constraint management
+- FSM-based real-time control design
+
+---
+
+## 🧠 Skills Demonstrated
+- VHDL (RTL design)
+- Finite State Machines
+- FPGA clocking and timing
+- Button debouncing
+- Hardware constraints (XDC)
+- Simulation and debugging
+
+---
+
+## 🚀 Future Improvements
+- Walk / Don’t-Walk indicators
+- Configurable timing via switches
+- Emergency vehicle override
+- Multi-intersection support
+
+---
