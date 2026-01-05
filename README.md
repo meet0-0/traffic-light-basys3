@@ -1,4 +1,4 @@
-# 🚦 FPGA Traffic Light Controller with Pedestrian Crossing (Basys 3)
+# 🚦 Traffic Light Controller with Pedestrian Crossing (Basys 3)
 
 ## 📌 Overview
 This project implements a **real-world traffic light controller with pedestrian crossing support** using **VHDL** on the **Basys 3 FPGA (Artix-7)**.
