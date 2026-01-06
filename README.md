@@ -10,7 +10,6 @@ A finite state machine (FSM) controls vehicle traffic lights, while a pedestrian
 ## 🎯 Features
 - Traffic light FSM: Green → Yellow → Red
 - Pedestrian crossing request using BTNU
-- Latched pedestrian request (no missed button presses)
 - Accurate timing using a 100 MHz → 1 Hz clock divider
 - LED indicators:
   - **LD0** – Green
@@ -31,8 +30,6 @@ A finite state machine (FSM) controls vehicle traffic lights, while a pedestrian
 |-----|--------|
 | 100 MHz | Button debouncing and request latching |
 | 1 Hz | FSM timing, LED control, pedestrian blinking |
-
-This separation ensures reliable capture of short button presses while maintaining human-readable timing.
 
 ---
 
@@ -97,7 +94,6 @@ A dedicated VHDL testbench (`top_tb.vhd`) verifies:
 - Finite State Machines (FSM)
 - FPGA clocking and timing
 - Button debouncing
-- Hardware constraints (XDC)
 - Simulation and debugging
 
 ---
