@@ -8,21 +8,19 @@ A finite state machine (FSM) controls vehicle traffic lights, while a pedestrian
 ---
 
 ## 🎯 Features
-- 🚥 Traffic light FSM: Green → Yellow → Red
-- 🚶 Pedestrian crossing request using BTNU
-- 🔒 Latched pedestrian request (no missed button presses)
-- ⏱️ Accurate timing using a 100 MHz → 1 Hz clock divider
-- 💡 LED indicators:
+- Traffic light FSM: Green → Yellow → Red
+- Pedestrian crossing request using BTNU
+- Latched pedestrian request (no missed button presses)
+- Accurate timing using a 100 MHz → 1 Hz clock divider
+- LED indicators:
   - **LD0** – Green
   - **LD1** – Yellow
   - **LD2** – Red
   - **LD3** – Pedestrian indicator
-- ✨ Pedestrian LED behavior:
+- Pedestrian LED behavior:
   - Turns ON immediately when requested
   - Blinks during pedestrian crossing
-  - Blinks faster near the end of the crossing
-- 🔢 Countdown timer on the 7-segment display
-- 🧪 Verified using a custom VHDL testbench
+- Countdown timer on the 7-segment display
 
 ---
 
